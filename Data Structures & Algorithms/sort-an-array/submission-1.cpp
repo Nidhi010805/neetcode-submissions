@@ -1,0 +1,49 @@
+// class Solution {
+// public:
+//     vector<int> sortArray(vector<int>& nums) {
+//         int n=nums.size();
+//         for(int i=0;i<n;i++){
+//             for(int j=i+1;j<n;j++){
+//                 if(nums[i]>nums[j])
+//                 swap(nums[i],nums[j]);
+//             }
+//         }
+//         return nums;
+//     }
+// };
+
+
+class Solution {
+public:
+void merge(vector<int>&nums,int s,int mid,int e){
+    vector<int>temp;
+    int l=s,r=mid+1;
+    while(l<=mid && r<=e){
+        if(nums[l]<=nums[r]){
+     temp.push_back(nums[l++]);
+        }
+        else
+        temp.push_back(nums[r++]);
+    }
+    while(l<=mid)
+    temp.push_back(nums[l++]);
+    while(r<=e)
+    temp.push_back(nums[r++]);
+    for(int i=s;i<=e;i++){
+nums[i]=temp[i-s];
+    }
+}
+void mergesort(vector<int>& nums,int s,int e){
+    if(s>=e) return;
+    int mid=s+(e-s)/2;
+    mergesort(nums,s,mid);
+     mergesort(nums,mid+1,e);
+      merge(nums,s,mid,e);
+}
+    vector<int> sortArray(vector<int>& nums) {
+        int n=nums.size();
+        
+         mergesort(nums,0,n-1);
+         return nums;
+    }
+};
